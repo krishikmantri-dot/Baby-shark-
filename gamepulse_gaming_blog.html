@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GamePulse - The Ultimate Gaming Chronicle</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              purple: '#8b5cf6',
+              cyan: '#06b6d4',
+              neon: '#10b981',
+              dark: '#0b0f19',
+              card: '#131b2e',
+              border: '#1f293d'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Orbitron', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    .neon-glow {
+      box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.35);
+    }
+    .glow-card:hover {
+      box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3);
+      border-color: rgba(139, 92, 246, 0.4);
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between selection:bg-cyan-500 selection:text-black">
+
+  <header class="sticky top-0 z-40 w-full backdrop-blur-md bg-brand-dark/85 border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brand-purple to-brand-cyan flex items-center justify-center p-0.5 shadow-lg group-hover:scale-105 transition-transform duration-200">
+          <div class="w-full h-full bg-brand-dark rounded-[10px] flex items-center justify-center">
+            <svg class="w-6 h-6 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <span class="text-xl sm:text-2xl font-black font-display tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan via-white to-brand-purple">GAMEPULSE</span>
+          <span class="hidden sm:block text-[10px] uppercase font-bold tracking-widest text-brand-purple">The Gamer's Chronicle</span>
+        </div>
+      </a>
+
+      <!-- Quick Nav and Add Post CTA -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        <button id="openNewPostModalBtn" class="flex items-center gap-2 bg-gradient-to-r from-brand-purple to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-medium text-sm px-4 py-2.5 rounded-xl shadow-lg hover:shadow-cyan-500/20 active:scale-95 transition-all">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          <span>Write Review</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    
+    <!-- Hero Banner -->
+    <section class="relative rounded-3xl overflow-hidden mb-12 border border-brand-border bg-gradient-to-r from-indigo-950 via-brand-card to-slate-900 shadow-2xl">
+      <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px]"></div>
+      <div class="relative z-10 px-6 sm:px-12 py-12 sm:py-16 max-w-3xl">
+        <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-brand-purple/20 text-purple-300 border border-brand-purple/30 mb-4">
+          <span class="w-2 h-2 rounded-full bg-brand-neon animate-pulse"></span>
+          Fresh Editorial Reviews & Deep Dives
+        </span>
+        <h1 class="text-3xl sm:text-5xl font-extrabold font-display leading-tight text-white mb-4">
+          Level Up Your <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-purple">Game Intellect</span>
+        </h1>
+        <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 max-w-2xl">
+          Honest reviews, comprehensive mechanical breakdowns, and indie discoveries written by gamers, for gamers. Explore our catalog or publish your own gaming critique.
+        </p>
+
+        <!-- Stats row -->
+        <div class="flex flex-wrap items-center gap-6 sm:gap-10 border-t border-slate-700/60 pt-6">
+          <div>
+            <div id="statTotalPosts" class="text-2xl font-bold font-display text-brand-cyan">10+</div>
+            <div class="text-xs text-slate-400">Published Blogs</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold font-display text-brand-purple">9.4/10</div>
+            <div class="text-xs text-slate-400">Avg Critic Score</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold font-display text-emerald-400">100%</div>
+            <div class="text-xs text-slate-400">Gamer Run</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <!-- Search input -->
+      <div class="relative w-full md:w-80">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Search games, authors, keywords..." 
+          class="w-full bg-brand-card/90 text-sm border border-brand-border rounded-xl pl-9 pr-4 py-2.5 text-white placeholder-slate-400 focus:outline-none focus:border-brand-cyan focus:ring-1 focus:ring-brand-cyan transition-colors"
+        >
+      </div>
+
+      <!-- Categories Pills -->
+      <div id="categoryContainer" class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 hide-scrollbar">
+        <!-- Buttons injected dynamically by JS -->
+      </div>
+    </section>
+
+    <section>
+      <div id="blogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Blog Cards will be injected by JavaScript -->
+      </div>
+
+      <!-- Empty state container -->
+      <div id="emptyState" class="hidden text-center py-20 bg-brand-card/40 rounded-2xl border border-brand-border">
+        <svg class="mx-auto h-12 w-12 text-slate-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <h3 class="text-lg font-semibold text-slate-200">No blog posts found</h3>
+        <p class="text-sm text-slate-400 mt-1 max-w-sm mx-auto">No game entries match your current search or genre filter. Try adjusting your query or submit a new review.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="newPostModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-brand-card border border-brand-border w-full max-w-xl rounded-2xl p-6 sm:p-8 shadow-2xl relative my-8">
+      
+      <div class="flex items-center justify-between border-b border-brand-border pb-4 mb-6">
+        <div class="flex items-center gap-2">
+          <div class="p-2 rounded-lg bg-brand-purple/20 text-brand-purple">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-bold text-white font-display">Create Game Review</h2>
+            <p class="text-xs text-slate-400">Share your gameplay experience with our community</p>
+          </div>
+        </div>
+        <button id="closeNewPostModalBtn" class="text-slate-400 hover:text-white transition-colors p-1.5 rounded-lg hover:bg-slate-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Add Post Form -->
+      <form id="newPostForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Game Title *</label>
+          <input type="text" id="postTitle" required placeholder="e.g. Astro Bot" class="w-full bg-slate-900/90 text-sm border border-brand-border rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Genre *</label>
+            <select id="postGenre" class="w-full bg-slate-900/90 text-sm border border-brand-border rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-brand-purple">
+              <option value="Action-Adventure">Action-Adventure</option>
+              <option value="RPG">RPG</option>
+              <option value="Indie">Indie</option>
+              <option value="Sci-Fi">Sci-Fi</option>
+              <option value="Roguelike">Roguelike</option>
+              <option value="Sandbox">Sandbox</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Rating (1-10) *</label>
+            <input type="number" id="postRating" min="1" max="10" step="0.1" value="9.0" required class="w-full bg-slate-900/90 text-sm border border-brand-border rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-brand-purple">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Author Name *</label>
+            <input type="text" id="postAuthor" required placeholder="e.g. PixelKnight" class="w-full bg-slate-900/90 text-sm border border-brand-border rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-brand-purple">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Release Year</label>
+            <input type="number" id="postYear" value="2024" class="w-full bg-slate-900/90 text-sm border border-brand-border rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-brand-purple">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Image URL</label>
+          <input type="url" id="postImage" placeholder="https://images.unsplash.com/..." class="w-full bg-slate-900/90 text-sm border border-brand-border rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-brand-purple">
+          <p class="text-[11px] text-slate-500 mt-1">Leave empty to use an auto-assigned high quality gaming screenshot.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Review Content / Analysis *</label>
+          <textarea id="postContent" rows="4" required placeholder="Write your full game review, impressions, strengths, and gameplay critique..." class="w-full bg-slate-900/90 text-sm border border-brand-border rounded-xl px-3.5 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:border-brand-purple"></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-brand-border">
+          <button type="button" id="cancelPostBtn" class="px-4 py-2 text-sm text-slate-300 hover:text-white rounded-xl hover:bg-slate-800 transition">Cancel</button>
+          <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-brand-purple to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white font-medium text-sm rounded-xl shadow-lg transition">Publish Review</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="readModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-brand-card border border-brand-border w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden my-8 max-h-[90vh] flex flex-col">
+      <!-- Modal Header Image -->
+      <div class="relative h-64 sm:h-80 w-full overflow-hidden shrink-0">
+        <img id="modalImage" src="" alt="Game Banner" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-brand-card/40 to-transparent"></div>
+        <button id="closeReadModalBtn" class="absolute top-4 right-4 bg-brand-dark/70 hover:bg-brand-dark text-white rounded-full p-2.5 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+        <div class="absolute bottom-4 left-6 right-6">
+          <div class="flex items-center gap-2 mb-2">
+            <span id="modalGenre" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-brand-purple/80 text-white"></span>
+            <span id="modalYear" class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800/80 text-slate-300"></span>
+            <span id="modalRating" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30"></span>
+          </div>
+          <h2 id="modalTitle" class="text-2xl sm:text-3xl font-extrabold text-white font-display"></h2>
+        </div>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 sm:p-8 overflow-y-auto space-y-6">
+        <div class="flex items-center justify-between border-b border-brand-border pb-4 text-xs text-slate-400">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-purple to-cyan-500 flex items-center justify-center font-bold text-white text-xs" id="modalAuthorAvatar"></div>
+            <div>
+              <p class="font-medium text-slate-200" id="modalAuthor"></p>
+              <p id="modalDate"></p>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span id="modalReadTime" class="flex items-center gap-1">
+              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <div id="modalContent" class="text-slate-300 leading-relaxed text-sm sm:text-base space-y-4">
+          <!-- Text dynamically loaded here -->
+        </div>
+
+        <!-- Interactive Engagement Section -->
+        <div class="border-t border-brand-border pt-6 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <button id="modalLikeBtn" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-rose-500/20 hover:text-rose-400 text-slate-300 transition text-xs font-semibold">
+              <svg class="w-4 h-4 text-rose-500" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              <span id="modalLikesCount">0</span> Likes
+            </button>
+            <span class="text-xs text-slate-500" id="modalCommentsCount">0 Comments</span>
+          </div>
+          <button id="modalShareBtn" class="text-xs text-brand-cyan hover:underline flex items-center gap-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+            </svg>
+            Share Review
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-brand-purple text-white px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-sm">
+    <svg class="w-5 h-5 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+    </svg>
+    <span id="toastMsg">Review posted successfully!</span>
+  </div>
+
+  <footer class="mt-16 border-t border-brand-border bg-brand-card/50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div class="flex items-center gap-2">
+        <span class="font-display font-bold text-slate-300">GAMEPULSE</span>
+        <span>• Interactive Gamer Critique Network</span>
+      </div>
+      <div>
+        Made with vanilla HTML, modern Tailwind CSS, and client-side JavaScript.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 10 Detailed Pre-loaded Blog Posts
+    const initialBlogPosts = [
+      {
+        id: "post-1",
+        title: "The Legend of Zelda: Tears of the Kingdom",
+        genre: "Action-Adventure",
+        year: 2023,
+        rating: 9.8,
+        author: "Aiden Vance",
+        date: "Oct 12, 2024",
+        readTime: "5 min read",
+        image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop",
+        likes: 342,
+        comments: 48,
+        excerpt: "Hyrule transforms from a grounded wilderness into a tri-layered sandbox of physics, engineering, and boundless skyward wonder.",
+        content: `Tears of the Kingdom takes the breath-taking freedom of Breath of the Wild and expands upon it in ways most developers wouldn't dare attempt. The cornerstone of the experience is the Ultrahand ability—a mechanics-driven physics marvel that turns Hyrule into a sandbox of contraptions, hoverbikes, and multi-stage rocket gliders.\n\nBeneath the floating islands lies the Depths: a pitch-black subterranean expanse that tests resource management and courage. Nintendo didn't just iterate; they constructed one of the most interconnected, systemic worlds in gaming history.`
+      },
+      {
+        id: "post-2",
+        title: "Elden Ring: Shadow of the Erdtree",
+        genre: "RPG",
+        year: 2024,
+        rating: 9.9,
+        author: "Evelyn Graves",
+        date: "Nov 02, 2024",
+        readTime: "6 min read",
+        image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop",
+        likes: 512,
+        comments: 89,
+        excerpt: "FromSoftware returns to the Lands Between with an expansion that rivals most full standalone releases in scale and vertical architecture.",
+        content: `The Realm of Shadow is FromSoftware operating at the absolute peak of environmental design. Layers of landmass fold into one another with vertical labyrinthine layouts that confound and delight.\n\nBoss encounters push aggressive reaction times to the extreme, necessitating clever build adaptation, spirit utilization, and mastery of the Scadutree fragment progression. It's a somber, haunting masterpiece of dark fantasy worldbuilding.`
+      },
+      {
+        id: "post-3",
+        title: "Cyberpunk 2077: Phantom Liberty",
+        genre: "Sci-Fi",
+        year: 2023,
+        rating: 9.3,
+        author: "Marcus Ray",
+        date: "Sep 28, 2024",
+        readTime: "4 min read",
+        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop",
+        likes: 278,
+        comments: 31,
+        excerpt: "Dogtown proves that CD Projekt Red has finally realized the gritty neon cyber-thriller vision promised years ago.",
+        content: `Dogtown is an intensely dense combat sandbox. Featuring Idris Elba as secret agent Solomon Reed, Phantom Liberty swaps sprawling street wandering for high-stakes espionage and moral compromise.\n\nCoupled with the overhaul of cyberware, vehicular combat, and redesigned skill trees, Cyberpunk 2077 finally stands as an undeniable benchmark for narrative-first RPGs.`
+      },
+      {
+        id: "post-4",
+        title: "Baldur's Gate 3",
+        genre: "RPG",
+        year: 2023,
+        rating: 9.9,
+        author: "Kaelen Drake",
+        date: "Aug 15, 2024",
+        readTime: "7 min read",
+        image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop",
+        likes: 620,
+        comments: 114,
+        excerpt: "An unmatched triumph of player agency, cinematic dialogue choices, and tactical D&D 5e turn-based freedom.",
+        content: `Larian Studios pulled off the impossible: a CRPG with AAA production values where practically every single quest provides three or four distinct permutations. Whether talking your way out of a dragon ambush or chucking goblins across chasm floors, the mechanical variety never runs dry.\n\nThe companion writing elevates the story beyond high fantasy tropes into an emotional and deeply personal odyssey.`
+      },
+      {
+        id: "post-5",
+        title: "Red Dead Redemption 2",
+        genre: "Action-Adventure",
+        year: 2018,
+        rating: 9.7,
+        author: "Sam Holloway",
+        date: "Jul 22, 2024",
+        readTime: "5 min read",
+        image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop",
+        likes: 410,
+        comments: 52,
+        excerpt: "Arthur Morgan's tragic voyage through a dying frontier remains the gold standard of video game storytelling and environmental realism.",
+        content: `Years after release, the living wilderness of Rockstar's frontier remains peerless. Weather systems roll across mountain peaks, wildlife ecosystems function independently of player interaction, and camps feel alive.\n\nAt the core sits Arthur Morgan, whose character arc confronts redemption, fraternity, and the sorrowful encroachment of industrial civilization.`
+      },
+      {
+        id: "post-6",
+        title: "Hollow Knight",
+        genre: "Indie",
+        year: 2017,
+        rating: 9.6,
+        author: "Nia Chen",
+        date: "Jul 05, 2024",
+        readTime: "4 min read",
+        image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=800&auto=format&fit=crop",
+        likes: 389,
+        comments: 42,
+        excerpt: "Hallownest's melancholy subterranean insect kingdom delivers tight platforming, punishing bosses, and flawless atmosphere.",
+        content: `Few games capture wonder and dread quite like Team Cherry's insectoid Metroidvania. Equipped only with a humble nail, you descend deeper into ruined city tunnels and fungal wastes.\n\nChristopher Larkin's score provides a majestic yet somber sonic identity that cushions the steep difficulty of late-game challenges like the Pantheon of Hallownest.`
+      },
+      {
+        id: "post-7",
+        title: "God of War Ragnarök",
+        genre: "Action-Adventure",
+        year: 2022,
+        rating: 9.5,
+        author: "Torin Blackwood",
+        date: "Jun 18, 2024",
+        readTime: "5 min read",
+        image: "https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=800&auto=format&fit=crop",
+        likes: 305,
+        comments: 29,
+        excerpt: "Santa Monica Studio concludes the Norse saga with emotional ferocity, visceral combat weight, and mythological scale.",
+        content: `Ragnarök deals with parenthood, destiny, and the cyclical nature of violence. Combat is refined with the addition of the Draupnir Spear, offering fluid combo transitions between icy Leviathan Axe strikes and fiery Blades of Chaos.\n\nThe production quality—seamless continuous camera shots, incredible voice acting, and stellar boss designs—cements its prestige status.`
+      },
+      {
+        id: "post-8",
+        title: "Minecraft",
+        genre: "Sandbox",
+        year: 2011,
+        rating: 9.8,
+        author: "Aiden Vance",
+        date: "May 30, 2024",
+        readTime: "3 min read",
+        image: "https://images.unsplash.com/photo-1627856013091-fed6e4e30025?q=80&w=800&auto=format&fit=crop",
+        likes: 720,
+        comments: 98,
+        excerpt: "The ultimate digital canvas continues to bridge generations through emergent survival gameplay and limitless architecture.",
+        content: `Decades into its lifecycle, Minecraft remains an unmatched medium for human creativity. From redstone computer engineers to casual survivalists building mountaintop keeps, the simplicity of voxel blocks holds infinite potential.\n\nContinuous procedural generation updates like Caves & Cliffs breathe fresh air into the subterranean depths.`
+      },
+      {
+        id: "post-9",
+        title: "Final Fantasy VII Rebirth",
+        genre: "RPG",
+        year: 2024,
+        rating: 9.2,
+        author: "Elena Rostova",
+        date: "May 14, 2024",
+        readTime: "6 min read",
+        image: "https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?q=80&w=800&auto=format&fit=crop",
+        likes: 295,
+        comments: 37,
+        excerpt: "An expansive reimagining that balances rich party synergy combat with an intoxicating amount of minigames and open-region exploration.",
+        content: `Breaking free from the industrial confines of Midgar, Rebirth opens up Gaia's gorgeous varied continents. The synergy system between Cloud, Tifa, Barret, and Aerith evolves dynamic combat into a tactical ballet.\n\nQueen's Blood, the tactical card game embedded in every settlement, is almost worth the price of admission alone.`
+      },
+      {
+        id: "post-10",
+        title: "Hades II",
+        genre: "Roguelike",
+        year: 2024,
+        rating: 9.7,
+        author: "Kaelen Drake",
+        date: "Apr 20, 2024",
+        readTime: "4 min read",
+        image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=800&auto=format&fit=crop",
+        likes: 480,
+        comments: 64,
+        excerpt: "Melinoë's witchcraft-infused journey through Tartarus and Olympus elevates fast-paced roguelite hack-and-slash to sublime heights.",
+        content: `Supergiant Games delivered lightning in a bottle twice. Armed with magick, hexes, and weapons of the Underworld, Princess Melinoë wages war against the Titan of Time, Chronos.\n\nThe divine boon system feels more versatile, the soundtrack by Darren Korb is electric, and the mythic narrative progression maintains that addictive 'just one more run' hook.`
+      }
+    ];
+
+    // Local Storage synchronization
+    const STORAGE_KEY = "gamepulse_blog_posts";
+    function loadPosts() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (e) {
+          console.error("Failed to parse stored blogs", e);
+        }
+      }
+      return initialBlogPosts;
+    }
+
+    let posts = loadPosts();
+    let currentCategory = "All";
+    let searchQuery = "";
+
+    const blogGrid = document.getElementById("blogGrid");
+    const emptyState = document.getElementById("emptyState");
+    const categoryContainer = document.getElementById("categoryContainer");
+    const searchInput = document.getElementById("searchInput");
+    const statTotalPosts = document.getElementById("statTotalPosts");
+
+    // Modal elements
+    const newPostModal = document.getElementById("newPostModal");
+    const openNewPostModalBtn = document.getElementById("openNewPostModalBtn");
+    const closeNewPostModalBtn = document.getElementById("closeNewPostModalBtn");
+    const cancelPostBtn = document.getElementById("cancelPostBtn");
+    const newPostForm = document.getElementById("newPostForm");
+
+    // Read Modal Elements
+    const readModal = document.getElementById("readModal");
+    const closeReadModalBtn = document.getElementById("closeReadModalBtn");
+    const modalImage = document.getElementById("modalImage");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalGenre = document.getElementById("modalGenre");
+    const modalYear = document.getElementById("modalYear");
+    const modalRating = document.getElementById("modalRating");
+    const modalAuthor = document.getElementById("modalAuthor");
+    const modalAuthorAvatar = document.getElementById("modalAuthorAvatar");
+    const modalDate = document.getElementById("modalDate");
+    const modalReadTime = document.getElementById("modalReadTime");
+    const modalContent = document.getElementById("modalContent");
+    const modalLikesCount = document.getElementById("modalLikesCount");
+    const modalCommentsCount = document.getElementById("modalCommentsCount");
+    const modalLikeBtn = document.getElementById("modalLikeBtn");
+    const modalShareBtn = document.getElementById("modalShareBtn");
+    const toast = document.getElementById("toast");
+    const toastMsg = document.getElementById("toastMsg");
+
+    let currentOpenPostId = null;
+
+    // Toast helper
+    function showToast(message) {
+      toastMsg.innerText = message;
+      toast.classList.remove("translate-y-20", "opacity-0");
+      setTimeout(() => {
+        toast.classList.add("translate-y-20", "opacity-0");
+      }, 3000);
+    }
+
+    function renderCategories() {
+      const genres = ["All", "Action-Adventure", "RPG", "Indie", "Sci-Fi", "Roguelike", "Sandbox"];
+      categoryContainer.innerHTML = genres.map(genre => {
+        const isActive = currentCategory === genre;
+        return `
+          <button 
+            data-category="${genre}"
+            class="px-4 py-2 text-xs font-semibold rounded-xl whitespace-nowrap transition-all ${
+              isActive 
+                ? 'bg-gradient-to-r from-brand-purple to-cyan-500 text-white shadow-md shadow-purple-500/20' 
+                : 'bg-brand-card hover:bg-slate-800 text-slate-300 border border-brand-border'
+            }"
+          >
+            ${genre}
+          </button>
+        `;
+      }).join('');
+
+      categoryContainer.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentCategory = btn.dataset.category;
+          renderCategories();
+          renderPosts();
+        });
+      });
+    }
+
+    function renderPosts() {
+      const filtered = posts.filter(post => {
+        const matchesCategory = currentCategory === "All" || post.genre.toLowerCase() === currentCategory.toLowerCase();
+        const matchesQuery = 
+          post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          post.author.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesQuery;
+      });
+
+      statTotalPosts.textContent = `${posts.length}`;
+
+      if (filtered.length === 0) {
+        blogGrid.innerHTML = "";
+        emptyState.classList.remove("hidden");
+        return;
+      }
+
+      emptyState.classList.add("hidden");
+      blogGrid.innerHTML = filtered.map(post => `
+        <article class="glow-card bg-brand-card rounded-2xl border border-brand-border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:-translate-y-1">
+          <div>
+            <!-- Post Thumbnail Image -->
+            <div class="relative h-48 w-full overflow-hidden bg-slate-900 group">
+              <img 
+                src="${post.image}" 
+                alt="${post.title}" 
+                onerror="this.onerror=null;this.src='https://placehold.co/600x400/131b2e/38bdf8?text=${encodeURIComponent(post.title)}';"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-brand-card via-transparent to-transparent opacity-80"></div>
+              
+              <!-- Badges -->
+              <div class="absolute top-3 left-3 flex gap-2">
+                <span class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-brand-purple/90 text-white backdrop-blur-md">
+                  ${post.genre}
+                </span>
+              </div>
+              <div class="absolute top-3 right-3">
+                <span class="px-2 py-0.5 text-xs font-black rounded-lg bg-amber-500/90 text-black shadow-md">
+                  ★ ${post.rating}
+                </span>
+              </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="p-5">
+              <div class="flex items-center gap-2 text-xs text-slate-400 mb-2">
+                <span>${post.date}</span>
+                <span>•</span>
+                <span>${post.readTime || '4 min read'}</span>
+                <span>•</span>
+                <span>${post.year || '2024'}</span>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-2 line-clamp-1 hover:text-brand-cyan transition-colors">
+                ${post.title}
+              </h3>
+              <p class="text-slate-300 text-xs sm:text-sm line-clamp-3 leading-relaxed mb-4">
+                ${post.excerpt}
+              </p>
+            </div>
+          </div>
+
+          <!-- Bottom Footer -->
+          <div class="px-5 pb-5 pt-3 border-t border-brand-border/60 flex items-center justify-between mt-auto">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-slate-700 text-slate-200 font-bold flex items-center justify-center text-[10px]">
+                ${post.author.charAt(0)}
+              </div>
+              <span class="text-xs font-medium text-slate-300">${post.author}</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <button onclick="handleLikePost('${post.id}')" class="flex items-center gap-1 text-xs text-slate-400 hover:text-rose-400 transition p-1">
+                <svg class="w-3.5 h-3.5 text-rose-500" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                <span>${post.likes || 0}</span>
+              </button>
+
+              <button onclick="openReadModal('${post.id}')" class="text-xs font-semibold text-brand-cyan hover:text-white bg-brand-cyan/10 hover:bg-brand-cyan/20 px-3 py-1.5 rounded-lg transition">
+                Read
+              </button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    window.openReadModal = function(postId) {
+      const post = posts.find(p => p.id === postId);
+      if (!post) return;
+      currentOpenPostId = postId;
+
+      modalImage.src = post.image;
+      modalImage.onerror = () => {
+        modalImage.src = `https://placehold.co/800x400/131b2e/38bdf8?text=${encodeURIComponent(post.title)}`;
+      };
+      modalTitle.textContent = post.title;
+      modalGenre.textContent = post.genre;
+      modalYear.textContent = post.year || '2024';
+      modalRating.textContent = `Score: ${post.rating}/10`;
+      modalAuthor.textContent = post.author;
+      modalAuthorAvatar.textContent = post.author.charAt(0);
+      modalDate.textContent = `Published on ${post.date}`;
+      modalReadTime.innerHTML = `
+        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        ${post.readTime || '4 min read'}
+      `;
+
+      // Split paragraphs nicely
+      const paragraphs = post.content.split('\n\n').filter(p => p.trim() !== '');
+      modalContent.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
+
+      modalLikesCount.textContent = post.likes || 0;
+      modalCommentsCount.textContent = `${post.comments || 0} Comments`;
+
+      readModal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    };
+
+    function closeReadModal() {
+      readModal.classList.add("hidden");
+      document.body.style.overflow = "auto";
+      currentOpenPostId = null;
+    }
+
+    // Like post handler
+    window.handleLikePost = function(postId) {
+      posts = posts.map(p => {
+        if (p.id === postId) {
+          return { ...p, likes: (p.likes || 0) + 1 };
+        }
+        return p;
+      });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+      renderPosts();
+      if (currentOpenPostId === postId) {
+        const updated = posts.find(p => p.id === postId);
+        modalLikesCount.textContent = updated.likes;
+      }
+    };
+
+    modalLikeBtn.addEventListener("click", () => {
+      if (currentOpenPostId) {
+        handleLikePost(currentOpenPostId);
+      }
+    });
+
+    modalShareBtn.addEventListener("click", () => {
+      const tempInput = document.createElement("input");
+      tempInput.value = window.location.href;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempInput);
+      showToast("Blog link copied to clipboard!");
+    });
+
+    closeReadModalBtn.addEventListener("click", closeReadModal);
+    readModal.addEventListener("click", (e) => {
+      if (e.target === readModal) closeReadModal();
+    });
+
+    function openNewModal() {
+      newPostModal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeNewModal() {
+      newPostModal.classList.add("hidden");
+      document.body.style.overflow = "auto";
+      newPostForm.reset();
+    }
+
+    openNewPostModalBtn.addEventListener("click", openNewModal);
+    closeNewPostModalBtn.addEventListener("click", closeNewModal);
+    cancelPostBtn.addEventListener("click", closeNewModal);
+    newPostModal.addEventListener("click", (e) => {
+      if (e.target === newPostModal) closeNewModal();
+    });
+
+    newPostForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById("postTitle").value.trim();
+      const genre = document.getElementById("postGenre").value;
+      const rating = parseFloat(document.getElementById("postRating").value) || 9.0;
+      const author = document.getElementById("postAuthor").value.trim();
+      const year = parseInt(document.getElementById("postYear").value) || new Date().getFullYear();
+      let image = document.getElementById("postImage").value.trim();
+      const content = document.getElementById("postContent").value.trim();
+
+      if (!image) {
+        // High quality fallback gaming background
+        image = "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=800&auto=format&fit=crop";
+      }
+
+      // Calculate brief excerpt
+      const excerpt = content.length > 140 ? content.substring(0, 140) + "..." : content;
+
+      // Approximate read time
+      const wordCount = content.split(/\s+/).length;
+      const readMinutes = Math.max(1, Math.ceil(wordCount / 180));
+      const readTime = `${readMinutes} min read`;
+
+      const options = { month: 'short', day: '2-digit', year: 'numeric' };
+      const formattedDate = new Date().toLocaleDateString("en-US", options);
+
+      const newPost = {
+        id: "post-" + Date.now(),
+        title,
+        genre,
+        year,
+        rating: Math.min(10, Math.max(1, rating)).toFixed(1),
+        author,
+        date: formattedDate,
+        readTime,
+        image,
+        likes: 0,
+        comments: 0,
+        excerpt,
+        content
+      };
+
+      // Add to beginning of post feed
+      posts.unshift(newPost);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
+
+      closeNewModal();
+      renderPosts();
+      showToast("Review successfully published!");
+    });
+
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value;
+      renderPosts();
+    });
+
+    // Keyboard shortcuts (Escape key closes modals)
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (!readModal.classList.contains("hidden")) closeReadModal();
+        if (!newPostModal.classList.contains("hidden")) closeNewModal();
+      }
+    });
+
+    // Initial load
+    renderCategories();
+    renderPosts();
+  </script>
+</body>
+</html>
